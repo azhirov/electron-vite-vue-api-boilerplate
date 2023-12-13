@@ -1,5 +1,7 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'node:path'
+import handleEvent from './api/handleRequest.ts';
+import { API_CHANNEL, type IApiRequest } from '../shared/api.ts';
 
 // The built directory structure
 //
@@ -12,7 +14,6 @@ import path from 'node:path'
 // │
 process.env.DIST = path.join(__dirname, '../dist')
 process.env.VITE_PUBLIC = app.isPackaged ? process.env.DIST : path.join(process.env.DIST, '../public')
-
 
 let win: BrowserWindow | null
 // 🚧 Use ['ENV_NAME'] avoid vite:define plugin - Vite@2.x
@@ -55,6 +56,10 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow()
   }
+})
+
+ipcMain.handle(API_CHANNEL, async (event, request: IApiRequest<any>) => {
+  return await handleEvent(event, request);
 })
 
 app.whenReady().then(createWindow)
