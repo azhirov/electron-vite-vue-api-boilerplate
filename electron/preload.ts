@@ -1,5 +1,19 @@
 import { contextBridge, ipcRenderer } from 'electron'
-import { callApi } from '../shared/api.ts';
+import type {TApi} from './api';
+import {API_CHANNEL} from './constants';
+
+export type IApiRequest<M extends keyof TApi> = {
+  method: M;
+  data: TApi[M] extends (...args: infer Args) => any ? Args : never;
+};
+
+export function callApi<M extends keyof TApi>(method: M, ...args: TApi[M] extends (...args: infer Args) => any ? Args : never) {
+  const request: IApiRequest<M> = {
+    method,
+    data: args,
+  }
+  return ipcRenderer.invoke(API_CHANNEL, request);
+}
 
 // --------- Expose some API to the Renderer process ---------
 contextBridge.exposeInMainWorld('ipcRenderer', withPrototype(ipcRenderer))

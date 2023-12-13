@@ -1,6 +1,6 @@
-import usePrefix from './usePrefix.ts';
-import fooApi from './modules/foo.ts';
-import barApi from './modules/bar.ts';
+import usePrefix from './usePrefix';
+import fooApi from './modules/foo';
+import barApi from './modules/bar';
 
 /**
  * foo:hello(), bar:sum() etc.

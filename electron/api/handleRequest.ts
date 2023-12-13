@@ -1,6 +1,6 @@
 import type { IpcMainInvokeEvent } from 'electron';
-import type { IApiRequest } from '../../shared/api.ts';
-import api, { type TApi } from './index.ts';
+import api, { type TApi } from './index';
+import type {IApiRequest} from '../preload';
 
 async function handleEvent(_event: IpcMainInvokeEvent, request: IApiRequest<keyof TApi>) {
   const fn = api[request.method];

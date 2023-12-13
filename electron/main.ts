@@ -1,7 +1,8 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'node:path'
-import handleEvent from './api/handleRequest.ts';
-import { API_CHANNEL, type IApiRequest } from '../shared/api.ts';
+import handleEvent from './api/handleRequest';
+import type {IApiRequest} from './preload';
+import {API_CHANNEL} from './constants';
 
 // The built directory structure
 //
